@@ -14,14 +14,14 @@ COMPONENT_ADD_INCLUDEDIRS += lib/heatshrink
 endif
 
 requirements.stamp:
-	python -m pip install -r "${COMPONENT_PATH}/requirements.txt"
+	python3 -m pip install -r "${COMPONENT_PATH}/requirements.txt"
 	touch requirements.stamp
 
 espfs_image.bin: $(FILES) requirements.stamp
-	PROJECT_DIR=${PROJECT_PATH} python "${COMPONENT_PATH}/tools/mkespfsimage.py" "${PROJECT_PATH}/${CONFIG_ESPFS_IMAGEROOTDIR}" espfs_image.bin
+	PROJECT_DIR=${PROJECT_PATH} python3 "${COMPONENT_PATH}/tools/mkespfsimage.py" "${PROJECT_PATH}/${CONFIG_ESPFS_IMAGEROOTDIR}" espfs_image.bin
 
 src/espfs_image.o: src/espfs_image.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 src/espfs_image.c: espfs_image.bin
-	python "${COMPONENT_PATH}/tools/bin2c.py" $< $@
+	python3 "${COMPONENT_PATH}/tools/bin2c.py" $< $@

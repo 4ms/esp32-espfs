@@ -15,9 +15,11 @@ idf_component_register(
 
 idf_build_get_property(python PYTHON)
 
+set(python3 "python3")
+
 add_custom_command(
     OUTPUT requirements.stamp
-    COMMAND "${python}" -m pip install -r "${COMPONENT_DIR}/requirements.txt"
+    COMMAND "${python3}" -m pip install -r "${COMPONENT_DIR}/requirements.txt"
     COMMAND ${CMAKE_COMMAND} -E touch requirements.stamp
 )
 
@@ -28,7 +30,7 @@ endif()
 
 add_custom_command(
     OUTPUT espfs_image.bin
-    COMMAND ${CMAKE_COMMAND} -E env PROJECT_DIR=${PROJECT_DIR} "${python}" "${COMPONENT_DIR}/tools/mkespfsimage.py" "${PROJECT_DIR}/${CONFIG_ESPFS_IMAGEROOTDIR}" espfs_image.bin
+    COMMAND ${CMAKE_COMMAND} -E env PROJECT_DIR=${PROJECT_DIR} "${python3}" "${COMPONENT_DIR}/tools/mkespfsimage.py" "${PROJECT_DIR}/${CONFIG_ESPFS_IMAGEROOTDIR}" espfs_image.bin
     DEPENDS "${PROJECT_DIR}/${CONFIG_ESPFS_IMAGEROOTDIR}" requirements.stamp ${espfs_image_bin_DEPS}
     COMMENT "Building espfs image"
     USES_TERMINAL
@@ -37,7 +39,7 @@ add_custom_command(
 
 add_custom_command(
     OUTPUT src/espfs_image.c
-    COMMAND "${python}" "${COMPONENT_DIR}/tools/bin2c.py" espfs_image.bin src/espfs_image.c
+    COMMAND "${python3}" "${COMPONENT_DIR}/tools/bin2c.py" espfs_image.bin src/espfs_image.c
     DEPENDS espfs_image.bin
     COMMENT "Generating espfs image C source"
     VERBATIM
