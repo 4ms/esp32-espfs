@@ -13,7 +13,8 @@ idf_component_register(
     REQUIRES "spi_flash"
 )
 
-idf_build_get_property(python PYTHON)
+# idf_build_get_property(python PYTHON)
+set(python "/usr/local/bin/python")
 
 add_custom_command(
     OUTPUT requirements.stamp
